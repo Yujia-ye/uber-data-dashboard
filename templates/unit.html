@@ -1,0 +1,439 @@
+<html>
+<head>
+	<title>Airbhb - Chart Showcase</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+        .styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+        .styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+        .styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+        .styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+    </style>
+
+    <!-- bootstrap -->
+    <link href="{{url_for('static', filename='bootstrap/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='bootstrap/bootstrap-responsive.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='bootstrap/bootstrap-overrides.css')}}" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='layout.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='elements.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='icons.css')}}" />
+
+    <!-- libraries -->
+    <link href="{{url_for('static', filename='lib/jquery-ui-1.10.2.custom.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url_for('static', filename='lib/font-awesome.css')}}" type="text/css" rel="stylesheet" />
+    <link href="{{url_for('static', filename='lib/morris.css')}}" type="text/css" rel="stylesheet" />
+
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='compiled/chart-showcase.css')}}" type="text/css" media="screen" />
+
+    <!-- open sans font -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+
+
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        <ul id="dashboard-menu">
+            <li>
+                <a href="http://127.0.0.1:5000/">
+                    <i class="icon-home"></i>
+                    <span>Listing</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5000/user">
+                    <i class="icon-edit"></i>
+                    <span>User</span>
+
+                </a>
+
+            </li>
+
+
+        </ul>
+    </div>
+    <!-- end sidebar -->
+
+
+	<!-- main container -->
+    <div class="content">
+
+
+        <div class="container-fluid">
+            <div id="pad-wrapper">
+
+
+                <!-- jQuery flot chart -->
+                <div>
+                    <h4 class="title">
+                        Calendar Statistics <small>Available Units and Average Price</small>
+                        <div class="btn-group pull-right">
+                            <button class="glow left" onclick="month()">Month</button>
+                            <button class="glow right" onclick="dow()">DoW</button>
+                        </div>
+                    </h4>
+                    <div class="span12">
+                        <div id="statsChart"></div>
+                    </div>
+
+                </div></div></div>
+    <div class="container-fluid">
+                <div id="pad-wrapper">
+
+                <!-- morris bar & donut charts -->
+                <div class="row-fluid section">
+                    <h4 class="title">
+                        Room Analytics
+                    </h4>
+                    <div class="span6 chart">
+                        <h5>Room Numbers</h5>
+                        <div id="hero-bar" style="height: 250px;"></div>
+                    </div>
+                    <div class="span5 chart">
+                        <h5>Room Type</h5>
+                        <div id="hero-donut" style="height: 250px;"></div>
+                    </div>
+                </div></div></div>
+
+        <div class="container-fluid">
+                <div id="pad-wrapper">
+
+                <!-- morris bar & donut charts -->
+                <div class="row-fluid section">
+                    <h4 class="title">
+                        Location Analytics
+                    </h4>
+                    <div class="span12 chart">
+                         <h5 class="title">Neighbourhood </h5>
+                        <div id="bar-chart" style="height: 250px;"></div>
+                    </div>
+
+                </div></div></div>
+                <!-- jQuery knobs -->
+        <div class="container-fluid">
+                <div id="pad-wrapper">
+
+                <!-- morris bar & donut charts -->
+                <div class="row-fluid section">
+                    <h4 class="title">
+                        Hot Listing Chart
+                    </h4>
+                    <div class="span5 chart">
+                    <h5>Top 10 Reviewed Listings</h5>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Listing ID</th>
+
+                                <th>Number of reviews</th>
+                            </tr>
+                        </thead>
+                         {% for item in info %}
+                        <tbody>
+
+                            <tr>
+
+                                <td>{{ item.id }}</td>
+
+                                <td>{{ item.cnt }}</td>
+                            </tr>
+
+                            <!-- and so on... -->
+                        </tbody>
+                        {% endfor %}
+                    </table></div>
+
+                    <div class="span5 chart">
+                    <h5>Top 10 Expensive Listings</h5>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Listing ID</th>
+                                <th>Neighbourhood</th>
+                                <th>room_type</th>
+                                <th>price</th>
+                            </tr>
+                        </thead>
+                         {% for item in expensive %}
+                        <tbody>
+
+                            <tr>
+
+                                <td><a href="{{ item.url }}">{{ item.id }}</a></td>
+                                <td>{{ item.nbh }}</td>
+                                <td>{{ item.room_type }}</td>
+                                <td>{{ item.price }}</td>
+                            </tr>
+
+                            <!-- and so on... -->
+                        </tbody>
+                        {% endfor %}
+                    </table></div>
+
+                </div></div></div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- end main container -->
+
+
+	<!-- scripts for this page -->
+    <script src="{{url_for('static', filename='js/jquery-latest.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery-ui-1.10.2.custom.min.js')}}"></script>
+    <!-- knob -->
+    <script src="{{url_for('static', filename='js/jquery.knob.js')}}"></script>
+    <!-- flot charts -->
+    <script src="{{url_for('static', filename='js/jquery.flot.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.flot.stack.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.flot.resize.js')}}"></script>
+    <!-- morrisjs -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="{{url_for('static', filename='js/morris.min.js')}}"></script>
+    <!-- call all plugins -->
+    <script src="{{url_for('static', filename='js/theme.js')}}"></script>
+
+    <!-- build the charts -->
+    <script type="text/javascript">
+
+        // Morris Bar Chart
+        Morris.Bar({
+            element: 'hero-bar',
+            data: [
+                {room: '1 room', Listings: 5897},
+                {room: '2 rooms', Listings: 1112},
+                {room: '3 rooms', Listings: 380},
+                {room: '4 rooms', Listings: 103},
+                {room: 'Others', Listings: 38+18+8+13}
+            ],
+            xkey: 'room',
+            ykeys: ['Listings'],
+            labels: ['Listings'],
+            barRatio: 0.4,
+            xLabelMargin: 10,
+            hideHover: 'auto',
+            barColors: ["#ba3864"]
+        });
+
+
+        // Morris Donut Chart
+        Morris.Donut({
+            element: 'hero-donut',
+            data: [
+                {label: 'Entire home/apt', value: 4508},
+                {label: 'Private room', value: 3130 },
+                {label: 'Shared room', value: 265 },
+                {label: 'Hotel room', value:363}
+            ],
+            colors: ["#add8e6", "#76bdee", "#c4dafe","#969dd9"],
+            formatter: function (y) { return y + " Airbnbs" }
+        });
+
+         // Morris Area Chart
+        var data = [
+                      { y: 'Yan na wa', a: 107, b: 3576},
+                      { y: 'Don Mueang', a: 113,  b: 1287},
+                      { y: 'Lat Krabang', a: 116,  b: 1481},
+                      { y: 'Khan Na Yao', a: 26,  b: 1668},
+                      { y: 'Sathon', a: 387,  b: 1847},
+                      { y: 'Din Daeng', a: 237,  b: 2602},
+                      { y: 'Chatu Chak', a: 280, b: 2096},
+                      { y: 'Phaya Thai', a: 211, b: 1852},
+                      { y: 'Pra Wet', a: 135, b: 1675},
+                      { y: 'Bang Khen', a: 60, b: 1925}
+                    ], config = {
+                      data: data,
+                      xkey: 'y',
+                      ykeys: ['a', 'b'],
+                      labels: ['Number of Units', 'Average Price'],
+                      fillOpacity: 0.6,
+                      hideHover: 'auto',
+                      behaveLikeLine: true,
+                      resize: true,
+                      pointFillColors:['#ffffff'],
+                      pointStrokeColors: ['black'],
+                      lineColors:['gray','red']
+                  };
+
+                config.element = 'bar-chart';
+                Morris.Bar(config);
+
+
+
+
+
+    </script>
+<script>
+    function month(){
+        var trips = [[1, 2331], [2, 8374], [3, 8491], [4, 8856],[5, 8588],[6, 7945],[7, 8743],[8, 7942],[9, 8399],[10, 8134]];
+        var pass = [[1, 1866.61], [2, 1856.70], [3, 1874.43], [4, 1868.51],[5, 1978.59],[6, 1963.44],[7, 1968.85],[8, 1977.94],[9, 1968.34],[10, 1958.99]];
+        var plot = $.plot($("#statsChart"),
+            [ { data: trips, label: "Available Units"},
+             { data: pass, label: "Average Prices" }], {
+                series: {
+                    lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                         },
+                    points: { show: true,
+                             lineWidth: 2,
+                             radius: 3
+                         },
+                    shadowSize: 0,
+                    stack: true
+                },
+                grid: { hoverable: true,
+                       clickable: true,
+                       tickColor: "#f9f9f9",
+                       borderWidth: 0
+                    },
+                legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                colors: ["#a7b5c5", "#30a0eb"],
+                xaxis: {
+                    ticks: [[1, "2022-09"], [2, "2022-10"], [3, "2022-11"], [4,"2022-12"], [5,"2023-01"], [6,"2023-02"],
+                           [7,"2023-03"],[8,"2023-04"],[9,"2023-05"],[10,"2023-06"]],                                   
+                    font: {
+                        size: 12,
+                        family: "Open Sans, Arial",
+                        variant: "small-caps",
+                        color: "#9da3a9"
+                    }
+                },
+                yaxis: {
+                    ticks:0,
+                    tickDecimals: 0,
+                    font: {size:12, color: "#9da3a9"}
+                }
+             });
+
+        var previousPoint = null;
+        $("#statsChart").bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1].toFixed(0);
+
+                    var month = item.series.xaxis.ticks[item.dataIndex].label;
+
+                    showTooltip(item.pageX, item.pageY,
+                                item.series.label + " of " + month + ": " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+        });
+
+    }
+    function dow(){
+         var price = [[1, 19210], [2, 19200], [3, 19220], [4, 19170],[5,19110],[6, 19720],[7, 19780]];
+
+        var plot2 = $.plot($("#statsChart"),
+            [ { data: price, label: "Average Price"}], {
+                series: {
+                    lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                         },
+                    points: { show: true,
+                             lineWidth: 2,
+                             radius: 3
+                         },
+                    shadowSize: 0,
+                    stack: true
+                },
+                grid: { hoverable: true,
+                       clickable: true,
+                       tickColor: "#f9f9f9",
+                       borderWidth: 0
+                    },
+                legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                colors: ["#a7b5c5"],
+                xaxis: {
+                    ticks: [[1, "Mon"], [2, "Tue"], [3, "Wed"], [4,"Thu"], [5,"Fri"], [6,"Sat"],
+                           [7,"Sun"]],
+                    font: {
+                        size: 12,
+                        family: "Open Sans, Arial",
+                        variant: "small-caps",
+                        color: "#9da3a9"
+                    }
+                },
+                yaxis: {
+                    ticks:0,
+                    tickDecimals: 0,
+                    font: {size:12, color: "#9da3a9"}
+                }
+             });
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css( {
+                position: 'absolute',
+                display: 'none',
+                top: y - 30,
+                left: x - 50,
+                color: "#fff",
+                padding: '2px 5px',
+                'border-radius': '6px',
+                'background-color': '#000',
+                opacity: 0.80
+            }).appendTo("body").fadeIn(200);
+        }
+    }
+</script>
+</body>
+</html>

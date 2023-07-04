@@ -1,0 +1,394 @@
+<html>
+<head>
+	<title>Detail Admin - Chart Showcase</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- bootstrap -->
+    <link href="{{url_for('static', filename='bootstrap/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='bootstrap/bootstrap-responsive.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='bootstrap/bootstrap-overrides.css')}}" type="text/css" rel="stylesheet" />
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='layout.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='elements.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='icons.css')}}" />
+
+    <!-- libraries -->
+    <link href="{{url_for('static', filename='lib/jquery-ui-1.10.2.custom.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{url_for('static', filename='lib/font-awesome.css')}}" type="text/css" rel="stylesheet" />
+    <link href="{{url_for('static', filename='lib/morris.css')}}" type="text/css" rel="stylesheet" />
+
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="{{url_for('static', filename='compiled/chart-showcase.css')}}" type="text/css" media="screen" />
+
+    <!-- open sans font -->
+    <link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+
+            <a class="brand" href="http://127.0.0.1:5000/"><img src="{{url_for('static', filename='img/logo.png')}}" /></a>
+
+
+        </div>
+    </div>
+    <!-- end navbar -->
+
+    <!-- sidebar -->
+    <div id="sidebar-nav">
+        <ul id="dashboard-menu">
+            <li>
+                <a href="http://127.0.0.1:5000/">
+                    <i class="icon-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://127.0.0.1:5000/query">
+                    <i class="icon-edit"></i>
+                    <span>IDE</span>
+
+                </a>
+
+            </li>
+
+            <li>
+                <a class="dropdown-toggle" href="#">
+                    <i class="icon-share-alt"></i>
+                    <span>Extras</span>
+                    <i class="icon-chevron-down"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="http://127.0.0.1:5000/dist">Time calculation</a></li>
+                    <li><a href="http://127.0.0.1:5000/dispatch">Dispatching system</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- end sidebar -->
+
+
+	<!-- main container -->
+    <div class="content">
+
+
+        <div class="row">
+                        {% for item in listing_info %}
+                        <div class="col-xl-3 col-lg-15 col-md-6">
+                            <div class="team-single text-center mb-30 bg-light-gradient">
+                                <div class="team-thumb mb-25">
+                                    <img src={{item.img}}" alt="">
+                                </div>
+
+                                <div class="team-text mb-25">
+                                    <h3>{{item.name}}</h3>
+                                    <h3>{{item.location}}</h3>
+                                    <h4>{{item.review_scores_rating}}</h4>
+                                    <h4><form  method="post">
+                                    view url：
+                                        <a href = '{{item.url}}'></a></form></h4>
+                                </div>
+                                <div class="team-social">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+    </div>
+    <!-- end main container -->
+
+
+	<!-- scripts for this page -->
+    <script src="{{url_for('static', filename='js/jquery-latest.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery-ui-1.10.2.custom.min.js')}}"></script>
+    <!-- knob -->
+    <script src="{{url_for('static', filename='js/jquery.knob.js')}}"></script>
+    <!-- flot charts -->
+    <script src="{{url_for('static', filename='js/jquery.flot.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.flot.stack.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.flot.resize.js')}}"></script>
+    <!-- morrisjs -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="{{url_for('static', filename='js/morris.min.js')}}"></script>
+    <!-- call all plugins -->
+    <script src="{{url_for('static', filename='js/theme.js')}}"></script>
+
+    <!-- build the charts -->
+    <script type="text/javascript">
+
+        // Morris Bar Chart
+        Morris.Bar({
+            element: 'hero-bar',
+            data: [
+                {device: 'Creative Mobile Technologies', trips: 27467101},
+                {device: 'VeriFone Inc', trips: 48365286},
+                {device: 'Unknown', trips: 298225+809568}
+            ],
+            xkey: 'device',
+            ykeys: ['trips'],
+            labels: ['Trips'],
+            barRatio: 0.4,
+            xLabelMargin: 10,
+            hideHover: 'auto',
+            barColors: ["#ba3864"]
+        });
+
+
+        // Morris Donut Chart
+        Morris.Donut({
+            element: 'hero-donut',
+            data: [
+                {label: 'Entire home/apt', value: 55370440},
+                {label: 'Private room', value: 20171696 },
+                {label: 'Shared room', value: 408369 }
+            ],
+            colors: ["#30a1ec", "#76bdee", "#c4dafe"],
+            formatter: function (y) { return y + " Airbnbs" }
+        });
+
+
+
+
+
+
+        // Morris Area Chart
+        Morris.Area({
+            element: 'hero-area1',
+            data: [
+                {period: '2022-06', price: 6405008, passengers: 9606553},
+                {period: '2022-07', price: 6299354, passengers: 9403595},
+                {period: '2022-08', price: 3007292, passengers: 4358147},
+                {period: '2022-09', price: 237993, passengers: 283317},
+                {period: '2022-10', price: 348371, passengers: 380437},
+                {period: '2022-11', price: 549760, passengers: 676776},
+                {period: '2022-12', price: 800412, passengers: 1016660},
+                {period: '2023-01', price: 1007284, passengers: 1318003},
+                {period: '2023-02', price: 1341012, passengers: 1775272},
+                {period: '2023-03', price: 1681131, passengers: 2247131},
+                {period: '2023-04', price: 1508985, passengers: 1995603},
+                {period: '2023-05', price: 1461897, passengers: 1933730}
+            ],
+            xkey: 'period',
+            ykeys: ['trips','passengers'],
+            labels: ['trips','passengers'],
+            lineWidth: 2,
+            hideHover: 'auto',
+            lineColors: ["#81d5d9", "#a6e182"]
+          });
+
+         Morris.Area({
+            element: 'hero-area2',
+            data: [
+                {period: '2019-01', trips: 7667792, passengers: 12016030},
+                {period: '2019-02', trips: 7019375, passengers: 11030387},
+                {period: '2019-03', trips: 7832545, passengers: 12337664},
+                {period: '2019-04', trips: 7433139, passengers: 11694563},
+                {period: '2019-05', trips: 7565261, passengers: 11873141},
+                {period: '2019-06', trips: 6941024, passengers: 10878820}
+
+            ],
+            xkey: 'period',
+            ykeys: ['trips','passengers'],
+            labels: ['trips','passengers'],
+            lineWidth: 2,
+            hideHover: 'auto',
+            lineColors: ["#969dd9", "#e1af92"]
+          });
+
+
+
+        // Build jQuery Knobs
+        $(".knob").knob();
+        var trips = [[1, 11053485], [2, 9641442], [3, 10996948], [4, 11632031],[5, 12055197],[6, 12240443],[7, 11053485]];
+        var pass = [[1, 14781350], [2, 14394994], [3, 16384084], [4, 17342292],[5, 18000686],[6, 18554560],[7, 17705527]];
+        var plot = $.plot($("#statsChart"),
+            [ { data: trips, label: "Trips"},
+             { data: pass, label: "Passengers" }], {
+                series: {
+                    lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                         },
+                    points: { show: true,
+                             lineWidth: 2,
+                             radius: 3
+                         },
+                    shadowSize: 0,
+                    stack: true
+                },
+                grid: { hoverable: true,
+                       clickable: true,
+                       tickColor: "#f9f9f9",
+                       borderWidth: 0
+                    },
+                legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                colors: ["#a7b5c5", "#30a0eb"],
+                xaxis: {
+                    ticks: [[1, "Mon"], [2, "Tue"], [3, "Wed"], [4,"Thu"], [5,"Fri"], [6,"Sat"],
+                           [7,"Sun"]],
+                    font: {
+                        size: 12,
+                        family: "Open Sans, Arial",
+                        variant: "small-caps",
+                        color: "#9da3a9"
+                    }
+                },
+                yaxis: {
+                    ticks:3,
+                    tickDecimals: 0,
+                    font: {size:12, color: "#9da3a9"}
+                }
+             });
+
+
+        //  jQuery Flot Chart
+
+
+        var previousPoint = null;
+        $("#statsChart").bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(0),
+                        y = item.datapoint[1].toFixed(0);
+
+                    var month = item.series.xaxis.ticks[item.dataIndex].label;
+
+                    showTooltip(item.pageX, item.pageY,
+                                item.series.label + " of " + month + ": " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+        });
+    </script>
+<script>
+    function dow(){
+        var trips = [[1, 11053485], [2, 9641442], [3, 10996948], [4, 11632031],[5, 12055197],[6, 12240443],[7, 11053485]];
+        var pass = [[1, 14781350], [2, 14394994], [3, 16384084], [4, 17342292],[5, 18000686],[6, 18554560],[7, 17705527]];
+        var plot = $.plot($("#statsChart"),
+            [ { data: trips, label: "Trips"},
+             { data: pass, label: "Passengers" }], {
+                series: {
+                    lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                         },
+                    points: { show: true,
+                             lineWidth: 2,
+                             radius: 3
+                         },
+                    shadowSize: 0,
+                    stack: true
+                },
+                grid: { hoverable: true,
+                       clickable: true,
+                       tickColor: "#f9f9f9",
+                       borderWidth: 0
+                    },
+                legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                colors: ["#a7b5c5", "#30a0eb"],
+                xaxis: {
+                    ticks: [[1, "Mon"], [2, "Tue"], [3, "Wed"], [4,"Thu"], [5,"Fri"], [6,"Sat"],
+                           [7,"Sun"]],
+                    font: {
+                        size: 12,
+                        family: "Open Sans, Arial",
+                        variant: "small-caps",
+                        color: "#9da3a9"
+                    }
+                },
+                yaxis: {
+                    ticks:3,
+                    tickDecimals: 0,
+                    font: {size:12, color: "#9da3a9"}
+                }
+             });
+    }
+    function hour(){
+         var pass2 = [[1, 3317536+2299078+1573819], [2, 1137877+867468+978594], [3, 2274825+4107676+5277080], [4, 5364583+5502521+5820552],[5, 6216055+6340753+6740930],[6, 6861439+6474963+7244771],[7, 7894101+7298641+6505374],[8,6421923+5989337+4653627]];
+        var trips2 = [[1,2087210+1450159+994929],[2,727178+579249+685449],[3,1617139+2831791+3592553],[4,3640666+3684933+3874425],[5,4138346+4210748+4464345],[6,4514360+4279230+4754309],[7,5137025+4714060+4179028],[8,4075116+2933961+3773971]]
+
+
+        var plot2 = $.plot($("#statsChart"),
+            [ { data: trips2, label: "Trips"},
+             { data: pass2, label: "Passengers" }], {
+                series: {
+                    lines: { show: true,
+                            lineWidth: 1,
+                            fill: true,
+                            fillColor: { colors: [ { opacity: 0.05 }, { opacity: 0.09 } ] }
+                         },
+                    points: { show: true,
+                             lineWidth: 2,
+                             radius: 3
+                         },
+                    shadowSize: 0,
+                    stack: true
+                },
+                grid: { hoverable: true,
+                       clickable: true,
+                       tickColor: "#f9f9f9",
+                       borderWidth: 0
+                    },
+                legend: {
+                        // show: false
+                        labelBoxBorderColor: "#fff"
+                    },
+                colors: ["#a7b5c5", "#30a0eb"],
+                xaxis: {
+                    ticks: [[1, "0-2H"], [2, "3-5H"], [3, "6-8H"], [4,"9-11H"], [5,"12-14H"], [6,"15-17H"],
+                           [7,"18-20H"],[8,"21-23H"]],
+                    font: {
+                        size: 12,
+                        family: "Open Sans, Arial",
+                        variant: "small-caps",
+                        color: "#9da3a9"
+                    }
+                },
+                yaxis: {
+                    ticks:3,
+                    tickDecimals: 0,
+                    font: {size:12, color: "#9da3a9"}
+                }
+             });
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css( {
+                position: 'absolute',
+                display: 'none',
+                top: y - 30,
+                left: x - 50,
+                color: "#fff",
+                padding: '2px 5px',
+                'border-radius': '6px',
+                'background-color': '#000',
+                opacity: 0.80
+            }).appendTo("body").fadeIn(200);
+        }
+    }
+</script>
+</body>
+</html>
